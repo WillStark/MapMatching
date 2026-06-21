@@ -1,0 +1,14 @@
+{
+  "version": 8,
+  "name": "MapMatching Visual Test",
+  "sources": {},
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#f5efe3"
+      }
+    }
+  ]
+}
