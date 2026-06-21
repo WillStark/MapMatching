@@ -1,4 +1,4 @@
-# MapMatching Implementation Status
+# GeoSync Implementation Status
 
 This file is no longer a forward-looking build plan. Most planned phases have shipped.
 

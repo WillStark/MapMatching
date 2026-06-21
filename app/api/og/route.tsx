@@ -9,8 +9,6 @@ import {
   type CompareSearchParams,
 } from "@/lib/search/url-state";
 
-export const runtime = "edge";
-
 function searchParamsToRecord(searchParams: URLSearchParams): CompareSearchParams {
   const record: CompareSearchParams = {};
 
@@ -41,7 +39,7 @@ export async function GET(request: Request) {
   const metadata = buildHomeMetadata(searchParamsToRecord(searchParams));
   const description =
     metadata.description ??
-    "Compare cities at the same real-world scale with MapMatching.";
+    "Compare cities at the same real-world scale with GeoSync.";
 
   return new ImageResponse(
     (
@@ -105,7 +103,7 @@ export async function GET(request: Request) {
                   height: 1,
                 }}
               />
-              MapMatching
+              GeoSync
               <div
                 style={{
                   borderBottom: "1px solid rgba(83,96,112,0.28)",

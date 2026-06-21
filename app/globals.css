@@ -296,6 +296,21 @@ input {
   box-shadow: none;
 }
 
+.v2-empty-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  overflow: visible;
+}
+
+.v2-empty-pane .v2-city-field {
+  min-height: 6.25rem;
+  border-color: rgba(83, 96, 112, 0.24);
+  background: rgba(255, 255, 255, 0.36);
+  box-shadow: 0 12px 28px rgba(83, 96, 112, 0.06);
+}
+
 .v2-map-pane .map-pane-canvas {
   width: 100%;
   height: clamp(22rem, 56svh, 40rem);

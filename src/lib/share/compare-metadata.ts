@@ -14,7 +14,7 @@ const boundaryLabels: Record<BoundaryType, string> = {
   municipality: "Municipal boundary",
 };
 
-const genericTitle = "MapMatching | Compare cities at the same scale";
+const genericTitle = "GeoSync | Compare cities at the same scale";
 const genericDescription =
   "Search and compare two cities at the same real-world scale with shareable URLs, normalized boundaries, and side-by-side MapLibre views.";
 
@@ -90,7 +90,7 @@ export function buildComparePageMetadata(
       openGraph: {
         title: genericTitle,
         description: genericDescription,
-        siteName: "MapMatching",
+        siteName: "GeoSync",
         type: "website",
         url: "/",
         images: [
@@ -98,7 +98,7 @@ export function buildComparePageMetadata(
             url: "/api/og",
             width: 1200,
             height: 630,
-            alt: "MapMatching share preview",
+            alt: "GeoSync share preview",
           },
         ],
       },
@@ -111,7 +111,7 @@ export function buildComparePageMetadata(
     };
   }
 
-  const title = `${state.left.name} vs ${state.right.name} | MapMatching`;
+  const title = `${state.left.name} vs ${state.right.name} | GeoSync`;
   const description = buildCompareDescription(state);
   const canonical = buildComparePath(state.left, state.right);
   const ogImage = buildOgImagePath(state.left, state.right);
@@ -125,7 +125,7 @@ export function buildComparePageMetadata(
     openGraph: {
       title,
       description,
-      siteName: "MapMatching",
+      siteName: "GeoSync",
       type: "website",
       url: canonical,
       images: [
@@ -133,7 +133,7 @@ export function buildComparePageMetadata(
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${state.left.name} versus ${state.right.name} on MapMatching`,
+          alt: `${state.left.name} versus ${state.right.name} on GeoSync`,
         },
       ],
     },
@@ -159,7 +159,7 @@ export function buildShareCardModel(state: CompareInitialState) {
       footerLeft: "Equal ground scale",
       footerRight: "MapLibre + normalized boundaries",
       summary: "Pick any two cities and the workspace handles the compare.",
-      title: "MapMatching",
+      title: "GeoSync",
     };
   }
 

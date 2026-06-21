@@ -90,7 +90,7 @@ function getNominatimHeaders() {
   return {
     "User-Agent":
       process.env.NOMINATIM_USER_AGENT ??
-      "MapMatching/0.1 (server place-detail proxy; local development)",
+      "GeoSync/0.1 (server place-detail proxy; local development)",
   };
 }
 
@@ -277,7 +277,7 @@ export async function getNominatimPlaceGeometry({
     boundarySource: "nominatim",
     boundarySourceLabel: "OpenStreetMap Nominatim boundary",
     sourceAttribution:
-      "Boundary geometry from Nominatim and OpenStreetMap contributors, ODbL 1.0. Simplified by MapMatching.",
+      "Boundary geometry from Nominatim and OpenStreetMap contributors, ODbL 1.0. Simplified by GeoSync.",
     centroid: metrics.centroid,
     bbox: metrics.bbox,
     areaSqKm: metrics.areaSqKm,

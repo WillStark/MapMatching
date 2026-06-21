@@ -33,7 +33,7 @@ export function getDemoPlaceGeometry(placeId: string): PlaceGeometryPayload | nu
     boundarySource: "osm-fixture",
     boundarySourceLabel: "OpenStreetMap fixture boundary",
     sourceAttribution:
-      `Boundary fixture from OpenStreetMap contributors, ODbL 1.0. OSM ${fixture.osmType} ${fixture.osmId}; simplified by Nominatim and bundled by MapMatching.`,
+      `Boundary fixture from OpenStreetMap contributors, ODbL 1.0. OSM ${fixture.osmType} ${fixture.osmId}; simplified by Nominatim and bundled by GeoSync.`,
     centroid: metrics.centroid,
     bbox: metrics.bbox,
     areaSqKm: metrics.areaSqKm,

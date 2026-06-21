@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Attribution | MapMatching",
+  title: "Attribution | GeoSync",
   description:
-    "Source and attribution details for MapMatching search, boundary geometry, and basemap rendering.",
+    "Source and attribution details for GeoSync search, boundary geometry, and basemap rendering.",
 };
 
 const sections = [
@@ -20,7 +20,7 @@ const sections = [
     items: [
       "Live boundary geometry currently comes from Nominatim / OpenStreetMap administrative polygons when available.",
       "Preset/demo boundary geometry comes from bundled OpenStreetMap fixtures instead of synthetic area rings.",
-      "Normalized area, bbox, and centroid are derived inside MapMatching from the returned geometry payload.",
+      "Normalized area, bbox, and centroid are derived inside GeoSync from the returned geometry payload.",
     ],
     title: "Boundary geometry",
   },
@@ -35,7 +35,7 @@ const sections = [
   {
     items: [
       "OpenStreetMap and Nominatim data are subject to their own usage and attribution requirements.",
-      "MapMatching currently keeps population and density out of the product until a reliable source is chosen and attributed.",
+      "GeoSync currently keeps population and density out of the product until a reliable source is chosen and attributed.",
     ],
     title: "Notes",
   },
@@ -52,7 +52,7 @@ export default function AttributionPage() {
             Source details for search, geometry, and maps.
           </h1>
           <p className="mt-4 text-[1rem] leading-relaxed text-slate">
-            MapMatching combines app-bundled demo data, provider-backed search,
+            GeoSync combines app-bundled demo data, provider-backed search,
             normalized geometry metrics, and a live MapLibre basemap. This page is
             the single place to review where each layer comes from today.
           </p>

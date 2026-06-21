@@ -1,6 +1,6 @@
-# MapMatching V2 Frontend Implementation Plan
+# GeoSync V2 Frontend Implementation Plan
 
-**Goal:** Replace the card-heavy MapMatching interface with a responsive left-rail/two-map workspace while preserving all search, URL, geometry, MapLibre, and equal-scale behavior.
+**Goal:** Replace the card-heavy GeoSync interface with a responsive left-rail/two-map workspace while preserving all search, URL, geometry, MapLibre, and equal-scale behavior.
 
 **Architecture:** Keep `app/page.tsx` as the Next.js 16 Server Component and `CompareShell` as the client state owner. Extract or add presentational primitives where they reduce markup, but do not rewrite the state machine or remount map instances between responsive layouts. Use existing Tailwind v4/global CSS, fonts, and MapLibre dependencies.
 

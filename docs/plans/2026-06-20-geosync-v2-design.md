@@ -1,8 +1,8 @@
-# MapMatching V2 Design
+# GeoSync V2 Design
 
 ## Direction
 
-MapMatching V2 is a split atlas instrument: a calm configuration rail beside two large, equal visual fields. It takes the reference image's useful composition—list and explanation on the left, paired subjects on the right—without copying its ecommerce content or visual identity.
+GeoSync V2 is a split atlas instrument: a calm configuration rail beside two large, equal visual fields. It takes the reference image's useful composition—list and explanation on the left, paired subjects on the right—without copying its ecommerce content or visual identity.
 
 ### Visual thesis
 
@@ -10,7 +10,7 @@ A contemporary editorial atlas reduced to paper, ink, fine rules, and two precis
 
 ### Content plan
 
-- Left rail: MapMatching wordmark, two city searches, swap/share actions, quick comparisons, one concise area summary, settings, and attribution.
+- Left rail: GeoSync wordmark, two city searches, swap/share actions, quick comparisons, one concise area summary, settings, and attribution.
 - Compare stage: two equal map panes, city identity overlays, one shared-scale ruler, and compact map facts.
 - Detail: boundary and source information appears on demand instead of occupying the default canvas.
 - Mobile: the maps remain the primary content; cities and controls move into a bottom sheet opened from a persistent utility bar.

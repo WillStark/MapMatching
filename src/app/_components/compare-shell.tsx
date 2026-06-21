@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Feature, MultiPolygon, Polygon } from "geojson";
-import type { CSSProperties, KeyboardEvent, RefObject } from "react";
+import type { CSSProperties, KeyboardEvent, ReactNode, RefObject } from "react";
 import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -444,7 +444,7 @@ function SearchField({
   const listboxId = `${slot}-search-results`;
 
   return (
-    <div className="relative">
+    <div className="relative" data-search-ui="true">
       <label
         className={[
           "v2-city-field flex min-h-[5.75rem] flex-col justify-between gap-3 px-4 py-3.5",
@@ -628,29 +628,40 @@ function MobileScaleDivider({
 
 function EmptySelectionCard({
   accent,
+  children,
   description,
   isReady,
   label,
+  testId,
   title,
 }: {
   accent: string;
+  children: ReactNode;
   description: string;
   isReady: boolean;
   label: string;
+  testId: string;
   title: string;
 }) {
   return (
-    <div className="v2-map-pane relative flex min-h-[56svh] flex-col justify-between overflow-hidden bg-paper p-6 lg:min-h-screen lg:p-8">
+    <section
+      aria-label={`${label} search`}
+      className="v2-map-pane v2-empty-pane relative flex min-h-[56svh] flex-col justify-center gap-6 overflow-visible bg-paper p-6 pt-20 lg:min-h-screen lg:p-8"
+      data-testid={testId}
+    >
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{ background: isReady ? accent : "rgba(148, 163, 184, 0.22)" }}
       />
-      <div>
+      <div className="max-w-[30rem]">
         <p className="ui-overline text-[0.64rem] tracking-[0.16em]">{label}</p>
         <p className="mt-4 type-display text-[2rem] leading-tight text-ink">{title}</p>
+        <p className="mt-3 max-w-[32ch] text-sm leading-relaxed text-slate">
+          {description}
+        </p>
       </div>
-      <p className="max-w-[30ch] text-sm leading-relaxed text-slate">{description}</p>
-    </div>
+      <div className="w-full max-w-[30rem]">{children}</div>
+    </section>
   );
 }
 
@@ -1404,7 +1415,12 @@ export function CompareShell({
     }
 
     function handlePointerDown(event: PointerEvent) {
-      if (searchUiRef.current?.contains(event.target as Node)) {
+      const target = event.target as Element | null;
+
+      if (
+        searchUiRef.current?.contains(event.target as Node) ||
+        target?.closest("[data-search-ui='true']")
+      ) {
         return;
       }
 
@@ -1454,16 +1470,6 @@ export function CompareShell({
 
     return () => window.clearTimeout(timer);
   }, [shareStatus]);
-
-  useEffect(() => {
-    if (
-      startsEmpty &&
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 1023px)").matches
-    ) {
-      setMobileControlsOpen(true);
-    }
-  }, [startsEmpty]);
 
   useEffect(() => {
     return () => {
@@ -1850,6 +1856,38 @@ export function CompareShell({
     setMobileControlsOpen(true);
   }
 
+  function renderSearchField(slot: SearchSlot) {
+    const isLeft = slot === "left";
+
+    return (
+      <SearchField
+        accentClassName={
+          isLeft
+            ? "focus-within:border-city-a/40 focus-within:text-city-a focus-within:shadow-[0_0_0_4px_rgba(228,87,46,0.12)]"
+            : "focus-within:border-city-b/40 focus-within:text-city-b focus-within:shadow-[0_0_0_4px_rgba(42,127,98,0.14)]"
+        }
+        activeIndex={activeIndexes[slot]}
+        error={searchErrors[slot]}
+        helper=""
+        inputRef={isLeft ? leftInputRef : rightInputRef}
+        isOpen={openResultsSlot === slot}
+        label={isLeft ? "First city" : "Second city"}
+        loading={loadingSlot === slot}
+        onChange={(value) => handleQueryChange(slot, value)}
+        onFocus={() => {
+          if (searchResults[slot].length > 0) {
+            setOpenResultsSlot(slot);
+          }
+        }}
+        onKeyDown={(event) => handleInputKeyDown(slot, event)}
+        onSelect={(place) => selectResult(slot, place)}
+        results={searchResults[slot]}
+        slot={slot}
+        value={isLeft ? leftQuery : rightQuery}
+      />
+    );
+  }
+
   async function handleShare() {
     if (!shareableLeftSelection || !shareableRightSelection) {
       return;
@@ -1871,7 +1909,7 @@ export function CompareShell({
       if (navigator.share) {
         try {
           await navigator.share({
-            title: "MapMatching",
+            title: "GeoSync",
             text: summary,
             url: shareUrl,
           });
@@ -1910,7 +1948,7 @@ export function CompareShell({
         <div className="flex min-h-full flex-col">
           <div className="border-b border-grid/80 pb-5">
             <h1 className="type-display text-[2.15rem] leading-[0.92] tracking-[-0.06em] text-ink sm:text-[2.75rem]">
-              MapMatching
+              GeoSync
             </h1>
             <p className="mt-3 max-w-[17rem] text-balance text-[0.9rem] leading-relaxed text-slate">
               {compareShellContent.title}
@@ -1954,51 +1992,12 @@ export function CompareShell({
               </div>
             </div>
 
-            <div className="grid gap-3">
-              <SearchField
-                accentClassName="focus-within:border-city-a/40 focus-within:text-city-a focus-within:shadow-[0_0_0_4px_rgba(228,87,46,0.12)]"
-                activeIndex={activeIndexes.left}
-                error={searchErrors.left}
-                helper=""
-                inputRef={leftInputRef}
-                isOpen={openResultsSlot === "left"}
-                label="First city"
-                loading={loadingSlot === "left"}
-                onChange={(value) => handleQueryChange("left", value)}
-                onFocus={() => {
-                  if (searchResults.left.length > 0) {
-                    setOpenResultsSlot("left");
-                  }
-                }}
-                onKeyDown={(event) => handleInputKeyDown("left", event)}
-                onSelect={(place) => selectResult("left", place)}
-                results={searchResults.left}
-                slot="left"
-                value={leftQuery}
-              />
-
-              <SearchField
-                accentClassName="focus-within:border-city-b/40 focus-within:text-city-b focus-within:shadow-[0_0_0_4px_rgba(42,127,98,0.14)]"
-                activeIndex={activeIndexes.right}
-                error={searchErrors.right}
-                helper=""
-                inputRef={rightInputRef}
-                isOpen={openResultsSlot === "right"}
-                label="Second city"
-                loading={loadingSlot === "right"}
-                onChange={(value) => handleQueryChange("right", value)}
-                onFocus={() => {
-                  if (searchResults.right.length > 0) {
-                    setOpenResultsSlot("right");
-                  }
-                }}
-                onKeyDown={(event) => handleInputKeyDown("right", event)}
-                onSelect={(place) => selectResult("right", place)}
-                results={searchResults.right}
-                slot="right"
-                value={rightQuery}
-              />
-            </div>
+            {hasBothSelections ? (
+              <div className="grid gap-3">
+                {renderSearchField("left")}
+                {renderSearchField("right")}
+              </div>
+            ) : null}
 
             <div
               aria-live="polite"
@@ -2042,19 +2041,21 @@ export function CompareShell({
             </details>
           </div>
 
-          <div className="mt-6 border-t border-grid/80 pt-5">
-            <p className="ui-overline text-[0.64rem] tracking-[0.18em]">
-              Active comparison
-            </p>
-            <h2 className="type-display mt-3 text-[1.65rem] leading-[0.98] tracking-[-0.05em] text-ink">
-              {summary}
-            </h2>
-            {!isScaleReady || hasBasemapError || hasGeometryError ? (
-              <p className="mt-3 text-[0.82rem] leading-relaxed text-slate">
-                {summaryDetail}
+          {hasLeftSelection || hasRightSelection ? (
+            <div className="mt-6 border-t border-grid/80 pt-5">
+              <p className="ui-overline text-[0.64rem] tracking-[0.18em]">
+                Active comparison
               </p>
-            ) : null}
-          </div>
+              <h2 className="type-display mt-3 text-[1.65rem] leading-[0.98] tracking-[-0.05em] text-ink">
+                {summary}
+              </h2>
+              {!isScaleReady || hasBasemapError || hasGeometryError ? (
+                <p className="mt-3 text-[0.82rem] leading-relaxed text-slate">
+                  {summaryDetail}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
 
           <nav
             aria-label="Comparison settings"
@@ -2201,8 +2202,8 @@ export function CompareShell({
         id="compare-canvas"
       >
         <div className="v2-mobile-brandbar" data-testid="mobile-comparison-bar">
-          <Link aria-label="MapMatching home" className="type-display" href="/">
-            MapMatching
+          <Link aria-label="GeoSync home" className="type-display" href="/">
+            GeoSync
           </Link>
           <span aria-hidden="true" className="h-4 w-px bg-grid" />
           <span className="truncate text-xs font-semibold text-slate">
@@ -2339,23 +2340,29 @@ export function CompareShell({
                 description={
                   leftSelection
                     ? `${leftSelection.country} is staged and ready. Add the second city to unlock the live compare surface.`
-                    : "Search for your first city or choose a preset to stage City A."
+                    : "Search here, or use a preset from Quick comparisons to fill both panes."
                 }
                 isReady={hasLeftSelection}
                 label="City A"
-                title={leftSelection ? leftSelection.name : "Search first city"}
-              />
+                testId="empty-pane-city-a"
+                title={leftSelection ? leftSelection.name : "Choose City A"}
+              >
+                {renderSearchField("left")}
+              </EmptySelectionCard>
               <EmptySelectionCard
                 accent={paneTemplates.right.accent}
                 description={
                   rightSelection
                     ? `${rightSelection.country} is staged and ready. Add the second city to unlock the live compare surface.`
-                    : "Search for your second city or choose a preset to stage City B."
+                    : "Search here, or use a preset from Quick comparisons to fill both panes."
                 }
                 isReady={hasRightSelection}
                 label="City B"
-                title={rightSelection ? rightSelection.name : "Search second city"}
-              />
+                testId="empty-pane-city-b"
+                title={rightSelection ? rightSelection.name : "Choose City B"}
+              >
+                {renderSearchField("right")}
+              </EmptySelectionCard>
             </div>
 
           </>

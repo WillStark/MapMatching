@@ -162,7 +162,7 @@ function getNominatimHeaders() {
   return {
     "User-Agent":
       process.env.NOMINATIM_USER_AGENT ??
-      "MapMatching/0.1 (server search proxy; local development)",
+      "GeoSync/0.1 (server search proxy; local development)",
   };
 }
 

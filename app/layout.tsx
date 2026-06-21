@@ -28,21 +28,21 @@ const monoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: "MapMatching",
+  title: "GeoSync",
   description:
     "Search and compare two cities at the same real-world scale with shareable URLs and server-backed restore.",
   openGraph: {
     description:
       "Search and compare two cities at the same real-world scale with shareable URLs and server-backed restore.",
-    siteName: "MapMatching",
-    title: "MapMatching",
+    siteName: "GeoSync",
+    title: "GeoSync",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     description:
       "Search and compare two cities at the same real-world scale with shareable URLs and server-backed restore.",
-    title: "MapMatching",
+    title: "GeoSync",
   },
 };
 

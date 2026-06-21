@@ -18,13 +18,23 @@ test("starts on an empty search-first landing state", async ({ page }) => {
   await expect(page.getByTestId("compare-workspace")).toBeVisible();
   await expect(getComparisonSetup(page)).toBeVisible();
   await expect(getWorkspaceUtilities(page)).toBeVisible();
-  await expect(
-    page.getByRole("heading", {
-      name: /Search two cities to start the compare\./i,
-    }),
-  ).toBeVisible();
+  await expect(page.getByTestId("empty-pane-city-a")).toContainText("Choose City A");
+  await expect(page.getByTestId("empty-pane-city-b")).toContainText("Choose City B");
   await expect(page.getByLabel("First city")).toHaveValue("");
   await expect(page.getByLabel("Second city")).toHaveValue("");
+  await expect(
+    page.getByTestId("empty-pane-city-a").getByLabel("First city"),
+  ).toBeVisible();
+  await expect(
+    page.getByTestId("empty-pane-city-b").getByLabel("Second city"),
+  ).toBeVisible();
+  await expect(getComparisonSetup(page).getByLabel("First city")).toHaveCount(0);
+  await expect(getComparisonSetup(page).getByLabel("Second city")).toHaveCount(0);
+  await expect(
+    getComparisonSetup(page).getByRole("heading", {
+      name: /Search two cities to start the compare\./i,
+    }),
+  ).toHaveCount(0);
   await expect(page.getByText(/Editorial Atlas Workspace/i)).toHaveCount(0);
   await expect(page.getByRole("button", { name: /^Search$/ })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Copy link" })).toBeDisabled();
@@ -74,7 +84,7 @@ test("opens and closes the comparison setup sheet on mobile", async ({ page }) =
     "Tokyo / Paris",
   );
   await expect(
-    page.getByRole("link", { name: "MapMatching home" }),
+    page.getByRole("link", { name: "GeoSync home" }),
   ).toBeVisible();
   await expect(trigger).toBeVisible();
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -135,7 +145,7 @@ test("desktop settings button focuses the comparison settings section", async ({
   await expect(settings).toBeInViewport();
 });
 
-test("opens comparison setup by default on an empty mobile entry", async ({
+test("keeps empty mobile search controls on the canvas", async ({
   page,
 }) => {
   await page.setViewportSize({ height: 932, width: 430 });
@@ -146,12 +156,16 @@ test("opens comparison setup by default on an empty mobile entry", async ({
     name: "Cities & controls",
   });
 
-  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await expect(
     page.getByRole("dialog", { name: "Cities & controls" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByTestId("empty-pane-city-a").getByLabel("First city"),
   ).toBeVisible();
-  await expect(page.getByLabel("First city")).toBeVisible();
-  await expect(page.getByLabel("Second city")).toBeVisible();
+  await expect(
+    page.getByTestId("empty-pane-city-b").getByLabel("Second city"),
+  ).toBeVisible();
 });
 
 test("links to the attribution page from the staging surface", async ({ page }) => {

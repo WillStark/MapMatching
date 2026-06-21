@@ -1,6 +1,6 @@
-# MapMatching
+# GeoSync
 
-MapMatching is a Next.js app for comparing two cities at the same real-world scale.
+GeoSync is a Next.js app for comparing two cities at the same real-world scale.
 
 Current shipped product:
 - dual city search with preset comparisons

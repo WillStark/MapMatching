@@ -12,7 +12,7 @@ describe("compare metadata", () => {
   it("returns generic metadata for the landing route", () => {
     const metadata = buildHomeMetadata();
 
-    expect(metadata.title).toBe("MapMatching | Compare cities at the same scale");
+    expect(metadata.title).toBe("GeoSync | Compare cities at the same scale");
     expect(metadata.alternates?.canonical).toBe("/");
     expect(getFirstOpenGraphImage(metadata)).toMatchObject({
       url: "/api/og",
@@ -24,7 +24,7 @@ describe("compare metadata", () => {
       preset: "tokyo-paris",
     });
 
-    expect(metadata.title).toBe("Tokyo vs Paris | MapMatching");
+    expect(metadata.title).toBe("Tokyo vs Paris | GeoSync");
     expect(metadata.alternates?.canonical).toBe("/?preset=tokyo-paris");
     expect(metadata.description).toContain(
       "Tokyo covers about 20.9 times the area of Paris.",

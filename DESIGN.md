@@ -1,8 +1,8 @@
-# MapMatching Design System
+# GeoSync Design System
 
 ## Product Context
 
-MapMatching is a public-facing web app for people who want to understand the real scale of two cities instantly.
+GeoSync is a public-facing web app for people who want to understand the real scale of two cities instantly.
 
 Primary audience:
 - travelers
@@ -140,7 +140,7 @@ The map is the hero. Chrome stays shallow and horizontal.
 
 ```text
 +--------------------------------------------------------------------------------------+
-| MapMatching  [ City A search................ ] [ City B search................ ] [Share] |
+| GeoSync  [ City A search................ ] [ City B search................ ] [Share] |
 |            [ Equal ground scale locked ]  [ Swap ]                                   |
 +--------------------------------------------------------------------------------------+
 | Tokyo                                                           Paris                |
@@ -166,7 +166,7 @@ Do not force tiny side-by-side panes on mobile. Preserve the "at once" feel by s
 
 ```text
 +---------------------------------------------------------------+
-| MapMatching                                                    |
+| GeoSync                                                       |
 | [ City A search............................................ ] |
 | [ City B search............................................ ] |
 | [ Equal ground scale locked ] [Share]                        |
