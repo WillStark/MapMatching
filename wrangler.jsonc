@@ -11,6 +11,20 @@
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
 	},
+	// Per-invocation brakes (cf-guardrails). OpenNext SSR needs more CPU than a plain Worker; 1000 ms is
+	// well above normal page renders but stops runaway loops long before the 30 s default.
+	// subrequests: Nominatim search/details + OpenNext asset/cache/self-reference calls stay far below 50.
+	// https://developers.cloudflare.com/workers/wrangler/configuration/#limits
+	"limits": {
+		"cpu_ms": 1000,
+		"subrequests": 50
+	},
+	// Keep Workers Logs on, sampled at 10% of invocations.
+	// https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 0.1
+	},
 	"services": [
 		{
 			// Self-reference service binding, the service name must match the worker name

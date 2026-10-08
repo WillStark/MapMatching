@@ -1,0 +1,22 @@
+# Check-only workflow: runs the cf-guardrails pre-deploy checker. Needs no secrets and deploys nothing.
+# Copy to .github/workflows/cf-guardrails.yml and vendor checker/check.mjs as .cf-guardrails/check.mjs.
+name: cf-guardrails
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Fails on error-level findings; warnings are printed but do not fail (add --strict to fail on them).
+      - run: node .cf-guardrails/check.mjs .
